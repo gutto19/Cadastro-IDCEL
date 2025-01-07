@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulário de Dados</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    input, button { padding: 8px; margin-bottom: 10px; width: 100%; }
+    .result { margin-top: 20px; font-weight: bold; }
+    .copy-btn { padding: 8px; background-color: #4CAF50; color: white; cursor: pointer; }
+  </style>
+</head>
+<body>
+
+  <h1>Preencha os Dados</h1>
+  <form id="dataForm">
+    <label for="nome">Nome Completo:</label>
+    <input type="text" id="nome" required>
+    
+    <label for="rg">RG (Apenas números):</label>
+    <input type="text" id="rg" required>
+    
+    <label for="cpf">CPF (Apenas números):</label>
+    <input type="text" id="cpf" required>
+    
+    <label for="cidade">Cidade:</label>
+    <input type="text" id="cidade" required>
+    
+    <label for="estado">Estado (2 siglas):</label>
+    <input type="text" id="estado" required>
+
+    <button type="button" onclick="gerarMensagem()">Gerar Resultados</button>
+  </form>
+
+  <div class="result" id="nomeResult"></div>
+  <button class="copy-btn" id="copyNomeBtn" style="display: none;" onclick="copiarResultado('nomeResult')">Copiar Nome</button>
+
+  <div class="result" id="apelidoResult"></div>
+  <button class="copy-btn" id="copyApelidoBtn" style="display: none;" onclick="copiarResultado('apelidoResult')">Copiar Apelido</button>
+
+  <script>
+    function gerarMensagem() {
+      // Coleta os dados do formulário
+      const nome = document.getElementById('nome').value;
+      let rg = document.getElementById('rg').value;
+      let cpf = document.getElementById('cpf').value;
+      const cidade = document.getElementById('cidade').value;
+      let estado = document.getElementById('estado').value;
+
+      // Valida CPF, RG e Estado (apenas números para CPF e RG, e 2 letras para Estado)
+      if (!validarNumeros(cpf) || !validarNumeros(rg)) {
+        alert("Por favor, insira apenas números para CPF e RG.");
+        return;
+      }
+
+      if (!validarEstado(estado)) {
+        alert("O estado deve ter exatamente 2 letras.");
+        return;
+      }
+
+      // Formata o CPF, RG e Estado
+      cpf = formatarCPF(cpf);
+      rg = formatarRG(rg);
+      estado = estado.toUpperCase(); // Garante que o estado esteja em maiúsculas
+
+      // Formata a mensagem no formato desejado para nome completo
+      const nomeMensagem = `${nome.toUpperCase()} / ${rg} / CERB / ${cidade.toUpperCase()} / ${estado.toUpperCase()}`;
+
+      // Formata o apelido no formato fixo
+      const apelidoMensagem = `CLT / ${cpf} / 23.617.076/0001-66`;
+
+      // Exibe os resultados
+      document.getElementById('nomeResult').innerText = nomeMensagem;
+      document.getElementById('apelidoResult').innerText = apelidoMensagem;
+
+      // Exibe os botões de cópia
+      document.getElementById('copyNomeBtn').style.display = 'inline-block';
+      document.getElementById('copyApelidoBtn').style.display = 'inline-block';
+    }
+
+    // Função para validar se os valores são numéricos
+    function validarNumeros(valor) {
+      return /^[0-9]+$/.test(valor);
+    }
+
+    // Função para validar o estado (2 caracteres)
+    function validarEstado(estado) {
+      return /^[A-Za-z]{2}$/.test(estado);
+    }
+
+    // Função para formatar o CPF no padrão ###.###.###-##
+    function formatarCPF(cpf) {
+      return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+    }
+
+    // Função para formatar o RG no padrão ###.###.###-#
+    function formatarRG(rg) {
+      return rg.replace(/(\d{2})(\d{3})(\d{3})(\d{1})/, "$1.$2.$3-$4");
+    }
+
+    // Função para copiar o texto gerado
+    function copiarResultado(elementId) {
+      const resultadoText = document.getElementById(elementId).innerText;
+      navigator.clipboard.writeText(resultadoText)
+        .then(() => alert("Resultado copiado para a área de transferência!"))
+        .catch(err => console.error("Erro ao copiar: ", err));
+    }
+  </script>
+
+</body>
+</html>
