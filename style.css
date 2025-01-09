@@ -41,8 +41,8 @@ body {
     margin: 10px 0 5px;
   }
   
-  input[type="text"], select {
-    width: calc(100% - 24px); /* Ajuste para alinhar os campos */
+  input[type="text"], select, button {
+    width: 100%; /* Alinha todos com 100% de largura */
     padding: 12px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
@@ -52,9 +52,6 @@ body {
   }
   
   button {
-    width: 100%;
-    padding: 12px;
-    margin-top: 10px;
     background-color: #007BFF;
     color: white;
     border: none;
@@ -65,7 +62,7 @@ body {
   
   button:hover {
     background-color: #0056b3;
-  }
+  }  
   
   /* Modal */
   .modal {
