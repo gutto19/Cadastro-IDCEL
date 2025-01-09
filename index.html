@@ -1,110 +1,260 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Formulário de Dados</title>
+  <title>Cadastro IDCEL</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 20px; }
-    input, button { padding: 8px; margin-bottom: 10px; width: 100%; }
-    .result { margin-top: 20px; font-weight: bold; }
-    .copy-btn { padding: 8px; background-color: #4CAF50; color: white; cursor: pointer; }
+    /* Estilização geral */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #f5f5f5;
+      overflow: hidden;
+    }
+
+    .container {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 500px;
+      padding: 20px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 300px;
+      margin: auto;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 24px;
+      color: #000;
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin: 10px 0 5px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 20px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      overflow: auto;
+      padding-top: 60px;
+    }
+
+    .modal-content {
+      background-color: #fff;
+      margin: 5% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 600px;
+      border-radius: 10px;
+    }
+
+    .modal-close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .modal-close:hover,
+    .modal-close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    /* Ajuste para telas menores */
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 20px;
+      }
+
+      input[type="text"], button {
+        font-size: 14px;
+        padding: 10px;
+      }
+
+      .container {
+        margin: auto;
+        width: 95%;
+      }
+    }
+
+    /* Estilo de exibição do resultado */
+    .resultado-texto {
+      white-space: pre-wrap;
+      font-family: monospace;
+      font-size: 16px;
+    }
   </style>
 </head>
 <body>
 
-  <h1>Preencha os Dados</h1>
-  <form id="dataForm">
-    <label for="nome">Nome Completo:</label>
-    <input type="text" id="nome" required>
-    
-    <label for="rg">RG (Apenas números):</label>
-    <input type="text" id="rg" required>
-    
-    <label for="cpf">CPF (Apenas números):</label>
-    <input type="text" id="cpf" required>
-    
-    <label for="cidade">Cidade:</label>
-    <input type="text" id="cidade" required>
-    
-    <label for="estado">Estado (2 siglas):</label>
-    <input type="text" id="estado" required>
+  <div class="container">
+    <h1>Cadastro IDCEL</h1>
+    <form id="cadastro-form">
+      <label for="nome">Nome Completo:</label>
+      <input type="text" id="nome" name="nome" placeholder="Digite seu nome completo">
 
-    <button type="button" onclick="gerarMensagem()">Gerar Resultados</button>
-  </form>
+      <label for="rg">RG (Apenas números):</label>
+      <input type="text" id="rg" name="rg" placeholder="Digite seu RG">
 
-  <div class="result" id="nomeResult"></div>
-  <button class="copy-btn" id="copyNomeBtn" style="display: none;" onclick="copiarResultado('nomeResult')">Copiar Nome</button>
+      <label for="cpf">CPF (Apenas números):</label>
+      <input type="text" id="cpf" name="cpf" placeholder="Digite seu CPF">
 
-  <div class="result" id="apelidoResult"></div>
-  <button class="copy-btn" id="copyApelidoBtn" style="display: none;" onclick="copiarResultado('apelidoResult')">Copiar Apelido</button>
+      <label for="cidade">Cidade:</label>
+      <input type="text" id="cidade" name="cidade" placeholder="Digite sua cidade">
+
+      <label for="estado">Estado (2 siglas):</label>
+      <input type="text" id="estado" name="estado" placeholder="Digite seu estado (ex: SP)">
+
+      <button type="submit">Criar Identificação IDCEL</button>
+    </form>
+  </div>
+
+  <!-- Modal de exibição do resultado -->
+  <div id="resultadoModal" class="modal">
+    <div class="modal-content">
+      <span class="modal-close" id="closeModal">&times;</span>
+      <h2>Resultado da Identificação IDCEL</h2>
+      
+      <h3>Identificação</h3>
+      <pre id="resultado" class="resultado-texto"></pre>
+      
+      <h3>Apelido</h3>
+      <pre id="apelido" class="resultado-texto"></pre>
+      
+      <button onclick="copiarResultado()">Copiar Identificação</button>
+      <button onclick="copiarApelido()">Copiar Apelido</button>
+    </div>
+  </div>
 
   <script>
-    function gerarMensagem() {
-      // Coleta os dados do formulário
-      const nome = document.getElementById('nome').value;
-      let rg = document.getElementById('rg').value;
-      let cpf = document.getElementById('cpf').value;
-      const cidade = document.getElementById('cidade').value;
-      let estado = document.getElementById('estado').value;
-
-      // Valida CPF, RG e Estado (apenas números para CPF e RG, e 2 letras para Estado)
-      if (!validarNumeros(cpf) || !validarNumeros(rg)) {
-        alert("Por favor, insira apenas números para CPF e RG.");
-        return;
-      }
-
-      if (!validarEstado(estado)) {
-        alert("O estado deve ter exatamente 2 letras.");
-        return;
-      }
-
-      // Formata o CPF, RG e Estado
-      cpf = formatarCPF(cpf);
-      rg = formatarRG(rg);
-      estado = estado.toUpperCase(); // Garante que o estado esteja em maiúsculas
-
-      // Formata a mensagem no formato desejado para nome completo
-      const nomeMensagem = `${nome.toUpperCase()} / ${rg} / CERB / ${cidade.toUpperCase()} / ${estado.toUpperCase()}`;
-
-      // Formata o apelido no formato fixo
-      const apelidoMensagem = `CLT / ${cpf} / 23.617.076/0001-66`;
-
-      // Exibe os resultados
-      document.getElementById('nomeResult').innerText = nomeMensagem;
-      document.getElementById('apelidoResult').innerText = apelidoMensagem;
-
-      // Exibe os botões de cópia
-      document.getElementById('copyNomeBtn').style.display = 'inline-block';
-      document.getElementById('copyApelidoBtn').style.display = 'inline-block';
-    }
-
-    // Função para validar se os valores são numéricos
-    function validarNumeros(valor) {
-      return /^[0-9]+$/.test(valor);
-    }
-
-    // Função para validar o estado (2 caracteres)
-    function validarEstado(estado) {
-      return /^[A-Za-z]{2}$/.test(estado);
-    }
-
-    // Função para formatar o CPF no padrão ###.###.###-##
+    // Função para formatar CPF no formato ###.###.###-##
     function formatarCPF(cpf) {
       return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
     }
 
-    // Função para formatar o RG no padrão ###.###.###-#
+    // Função para formatar RG no formato correto
     function formatarRG(rg) {
-      return rg.replace(/(\d{2})(\d{3})(\d{3})(\d{1})/, "$1.$2.$3-$4");
+      if (rg.length === 7) {
+        return rg.replace(/(\d{2})(\d{3})(\d{2})/, "$1.$2.$3");
+      } else if (rg.length === 8) {
+        return rg.replace(/(\d{2})(\d{3})(\d{3})/, "$1.$2.$3");
+      } else if (rg.length === 9) {
+        return rg.replace(/(\d{2})(\d{3})(\d{3})(\d{1})/, "$1.$2.$3-$4");
+      } else if (rg.length === 10) {
+        return rg.replace(/(\d{2})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+      }
+      return rg;
     }
 
-    // Função para copiar o texto gerado
-    function copiarResultado(elementId) {
-      const resultadoText = document.getElementById(elementId).innerText;
-      navigator.clipboard.writeText(resultadoText)
-        .then(() => alert("Resultado copiado para a área de transferência!"))
-        .catch(err => console.error("Erro ao copiar: ", err));
+    // Função para exibir o resultado no modal
+    document.getElementById("cadastro-form").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      // Coleta os dados do formulário
+      const nome = document.getElementById("nome").value;
+      const rg = document.getElementById("rg").value;
+      const cpf = document.getElementById("cpf").value;
+      const cidade = document.getElementById("cidade").value;
+      const estado = document.getElementById("estado").value;
+
+      // Formata os dados para exibição da Identificação
+      const resultadoTexto = `
+${nome.toUpperCase()} / ${formatarRG(rg)} / CERB / ${cidade.toUpperCase()} / ${estado.toUpperCase()}
+`;
+
+      // Formata os dados para exibição do Apelido
+      const apelidoTexto = `
+CLT / ${formatarCPF(cpf)} / 23.617.076/0001-66
+`;
+
+      // Preenche o conteúdo no modal
+      const resultadoDiv = document.getElementById("resultado");
+      resultadoDiv.textContent = resultadoTexto.trim();  // Remove espaços extras
+
+      const apelidoDiv = document.getElementById("apelido");
+      apelidoDiv.textContent = apelidoTexto.trim();  // Remove espaços extras
+
+      // Exibe o modal
+      document.getElementById("resultadoModal").style.display = "block";
+    });
+
+    // Função para fechar o modal
+    document.getElementById("closeModal").onclick = function() {
+      document.getElementById("resultadoModal").style.display = "none";
+    }
+
+    // Função para copiar o conteúdo do resultado
+    function copiarResultado() {
+      const resultadoTexto = document.getElementById("resultado").textContent.trim();  // Remove espaços extras
+      const textArea = document.createElement("textarea");
+      textArea.value = resultadoTexto;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textArea);
+      alert("Identificação copiada para a área de transferência!");
+    }
+
+    // Função para copiar o conteúdo do Apelido
+    function copiarApelido() {
+      const apelidoTexto = document.getElementById("apelido").textContent.trim();  // Remove espaços extras
+      const textArea = document.createElement("textarea");
+      textArea.value = apelidoTexto;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textArea);
+      alert("Apelido copiado para a área de transferência!");
     }
   </script>
 
