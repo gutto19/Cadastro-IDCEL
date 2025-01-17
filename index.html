@@ -14,6 +14,7 @@
             <input type="text" id="nome" name="nome" placeholder="Digite seu nome completo">
 
             <div class="prefixo-digits-container">
+                <!-- Controle do Prefixo -->
                 <div class="prefixo-container">
                     <div class="prefixo-label-container">
                         <label for="toggle-prefixo">Prefixo do RG</label>
@@ -24,7 +25,8 @@
                     </div>
                     <input type="text" id="rg-prefixo" name="rg-prefixo" placeholder="Exemplo: AA" disabled>
                 </div>
-
+            
+                <!-- Controle dos Dígitos -->
                 <div class="digits-container">
                     <label for="rg-digits">Dígitos do RG</label>
                     <select id="rg-digits" name="rg-digits">
@@ -34,6 +36,21 @@
                         <option value="9">9</option>
                         <option value="10">10</option>
                     </select>
+                </div>
+            </div>
+            
+            <!-- Controle da Posição do Prefixo -->
+            <div class="prefixo-posicao-container">
+                <div class="prefixo-label-container">
+                    <label for="prefixo-posicao">Posição do Prefixo</label>
+                </div>
+                <div class="prefixo-posicao">
+                    <label for="prefixo-posicao-antes" class="radio-label">
+                        <input type="radio" id="prefixo-posicao-antes" name="prefixo-posicao" checked disabled> Antes
+                    </label>
+                    <label for="prefixo-posicao-depois" class="radio-label">
+                        <input type="radio" id="prefixo-posicao-depois" name="prefixo-posicao" disabled> Depois
+                    </label>
                 </div>
             </div>
 

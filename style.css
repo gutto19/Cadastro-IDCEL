@@ -75,9 +75,8 @@ button:hover {
 /* Contêiner do Prefixo e Dígitos do RG */
 .prefixo-digits-container {
   display: flex;
-  gap: 20px;
+  gap: 15px;
   align-items: center; /* Alinha verticalmente ao centro */
-  margin-bottom: 15px; /* Adicionado margem inferior */
 }
 
 .prefixo-container {
@@ -96,14 +95,13 @@ button:hover {
   align-items: center;
   justify-content: space-between;
   width: 100%; /* Ocupa toda a largura disponível */
-  margin-bottom: 5px; /* Espaçamento entre o label/switch e o input */
 }
 
 /* Estilo do switch */
 .switch {
   position: relative;
   display: inline-block;
-  width: 34px;
+  width: 35px;
   height: 20px;
 }
 
@@ -141,6 +139,33 @@ input:checked + .slider {
 
 input:checked + .slider:before {
   transform: translateX(14px);
+}
+
+/* Estilo do contêiner de radio buttons */
+.prefixo-posicao-container {
+  margin-bottom: 10px;
+}
+
+.prefixo-posicao {
+  display: flex;
+  gap: 10px;
+}
+
+.radio-label {
+  display: flex;
+  align-items: center;
+  font-weight: normal;
+  margin-bottom: 10px;
+}
+
+/* Estilo para o texto de "Posição do Prefixo" */
+#prefixo-posicao-label {
+  margin-left: 10px;
+}
+
+/* Ajuste da posição do prefixo quando estiver à direita */
+.prefixo-direita #rg-prefixo {
+  order: 2; /* Coloca o input depois do label */
 }
 
 /* Modal */
@@ -210,4 +235,15 @@ input:checked + .slider:before {
   white-space: pre-wrap;
   font-family: monospace;
   font-size: 16px;
+}
+
+/* Estilo para o campo de input do prefixo */
+input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
 }
