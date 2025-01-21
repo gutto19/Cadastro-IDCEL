@@ -164,12 +164,16 @@ $(document).ready(function () {
         }
     });
 
-
     // Carrega os estados no select
     $.ajax({
         url: "https://servicodados.ibge.gov.br/api/v1/localidades/estados",
         dataType: "json",
         success: function (data) {
+            // Ordena os estados em ordem crescente (alfabeticamente)
+            data.sort(function(a, b) {
+                return a.sigla.localeCompare(b.sigla); // Ordenação pela sigla do estado
+            });
+
             estadoSelect.empty().append($("<option>", { value: "", text: "Selecione o Estado" }));
             data.forEach(function (val) {
                 estadoSelect.append($("<option>", { value: val.sigla, text: val.sigla }));
@@ -203,19 +207,28 @@ $(document).ready(function () {
     // Envia o formulário e exibe o resultado
     cadastroForm.on('submit', function (event) {
         event.preventDefault();
-        const nome = $('#nome').val().toUpperCase();
-        const rg = $('#rg').val();
-        const cpf = $('#cpf').val();
-        const cidade = $('#cidade').val().toUpperCase();
-        const estado = $('#estado').val().toUpperCase();
+
+        const nome = $('#nome').val().trim().toUpperCase(); // Converte nome para caixa alta
+        const rg = $('#rg').val().trim().toUpperCase(); // Converte rg para caixa alta
+        const cpf = $('#cpf').val().trim().toUpperCase(); // Converte cpf para caixa alta
+
+        // Verifica se os campos obrigatórios estão preenchidos
+        if (!nome || !rg || !cpf) {
+            alert('Por favor, preencha todos os campos obrigatórios: Nome, RG e CPF.');
+            return; // Interrompe o envio do formulário
+        }
+
+        const cidade = $('#cidade').val().toUpperCase(); // Converte cidade para caixa alta
+        const estado = $('#estado').val().toUpperCase(); // Converte estado para caixa alta
 
         const resultadoTexto = `${nome} / ${rg} / CERB / ${cidade} / ${estado}`;
         const apelidoTexto = `CLT / ${cpf} / 23.617.076/0001-66`;
 
-        resultadoDiv.text(resultadoTexto.trim());
-        apelidoDiv.text(apelidoTexto.trim());
+        resultadoDiv.text(resultadoTexto.trim()); // Exibe o resultado em caixa alta
+        apelidoDiv.text(apelidoTexto.trim()); // Exibe o apelido em caixa alta
         resultadoModal.css('display', 'block');
     });
+
 
     // Fecha o modal
     closeModal.on('click', function () {
