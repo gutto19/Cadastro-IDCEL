@@ -215,17 +215,18 @@ $(document).ready(function () {
         const estado = $('#estado').val();
         const cidade = $('#cidade').val();
 
-        let formValido = true;
+        //let formValido = true;
 
 		// Verifica se os campos obrigatórios estão preenchidos
         if (!nome || nome === "" || !rg || rg === "" || !cpf || cpf === "" || !estado || !cidade) {
             alert('Por favor, preencha os campos obrigatórios: Nome, RG, CPF, Estado e Cidade.');
-            formValido = false;
+            //formValido = false;
+	    return;
         }
 
-        if (!formValido) {
-            return; // Impede o envio se houver erros
-        }
+        //if (!formValido) {
+        //    return; // Impede o envio se houver erros
+        //}
 
 		// Monta o texto do resultado no formato desejado
         const resultadoTexto = `${nome.toUpperCase()} / ${rg} / CERB / ${cidade.toUpperCase()} / ${estado.toUpperCase()}`;
