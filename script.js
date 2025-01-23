@@ -204,31 +204,40 @@ $(document).ready(function () {
         }
     });
 
+
     // Envia o formulário e exibe o resultado
     cadastroForm.on('submit', function (event) {
         event.preventDefault();
 
-        const nome = $('#nome').val().trim().toUpperCase(); // Converte nome para caixa alta
-        const rg = $('#rg').val().trim().toUpperCase(); // Converte rg para caixa alta
-        const cpf = $('#cpf').val().trim().toUpperCase(); // Converte cpf para caixa alta
+        const nome = $('#nome').val().trim();
+        let rg = $('#rg').val().trim();
+        const cpf = $('#cpf').val().trim();
+        const estado = $('#estado').val();
+        const cidade = $('#cidade').val();
 
-        // Verifica se os campos obrigatórios estão preenchidos
-        if (!nome || !rg || !cpf) {
-            alert('Por favor, preencha todos os campos obrigatórios: Nome, RG e CPF.');
-            return; // Interrompe o envio do formulário
+        let formValido = true;
+
+		// Verifica se os campos obrigatórios estão preenchidos
+        if (!nome || nome === "" || !rg || rg === "" || !cpf || cpf === "" || !estado || !cidade) {
+            alert('Por favor, preencha os campos obrigatórios: Nome, RG, CPF, Estado e Cidade.');
+            formValido = false;
         }
 
-        const cidade = $('#cidade').val().toUpperCase(); // Converte cidade para caixa alta
-        const estado = $('#estado').val().toUpperCase(); // Converte estado para caixa alta
+        if (!formValido) {
+            return; // Impede o envio se houver erros
+        }
 
-        const resultadoTexto = `${nome} / ${rg} / CERB / ${cidade} / ${estado}`;
+		// Monta o texto do resultado no formato desejado
+        const resultadoTexto = `${nome.toUpperCase()} / ${rg} / CERB / ${cidade.toUpperCase()} / ${estado.toUpperCase()}`;
         const apelidoTexto = `CLT / ${cpf} / 23.617.076/0001-66`;
 
-        resultadoDiv.text(resultadoTexto.trim()); // Exibe o resultado em caixa alta
-        apelidoDiv.text(apelidoTexto.trim()); // Exibe o apelido em caixa alta
+		// Exibe o resultado no modal
+        resultadoDiv.text(resultadoTexto); 
+        apelidoDiv.text(apelidoTexto);
+		
+		// Exibe o modal
         resultadoModal.css('display', 'block');
     });
-
 
     // Fecha o modal
     closeModal.on('click', function () {
